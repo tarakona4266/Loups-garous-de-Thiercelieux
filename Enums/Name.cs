@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Loups_Garoups_de_Thiercelieux_console.Enums
+namespace Loups_Garous_de_Thiercelieux_console.Enums
 {
     public enum Name
     {
@@ -14,11 +14,11 @@ namespace Loups_Garoups_de_Thiercelieux_console.Enums
         Yvette,
         Gaspard,
         Micheline,
-        LeTeuffeurDu93, // parce que pourquoi pas :)
         Cunégonde,
         Philibert,
         Sidonie,
         Philomène,
-        Léonard
+        Léonard,
+        LeTeuffeurDu93, // parce que pourquoi pas :)
     }
 }

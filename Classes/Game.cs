@@ -1,4 +1,4 @@
-﻿using Loups_Garoups_de_Thiercelieux_console.Enums;
+﻿using Loups_Garous_de_Thiercelieux_console.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,23 +7,23 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace Loups_Garoups_de_Thiercelieux_console.Classes
+namespace Loups_Garous_de_Thiercelieux_console.Classes
 {
     public class Game
     {
         private int nbPlayer;
         private bool simpleGame;
         private List<Player> allPlayers = [];
-        private List<Player> werewolves = [];
 
         // special players
-        Player Thief;
-        Player Cupido;
-        Player FortuneTeller;
-        Player Witch;
-        Player LittleGirl;
-        Player Hunter;
-        Player Sheriff;
+        private List<Player> werewolves = [];
+        private Player Thief;
+        private Player Cupido;
+        private Player FortuneTeller;
+        private Player Witch;
+        private Player LittleGirl;
+        private Player Hunter;
+        private Player Sheriff;
 
 
         public Game(int nbPlayer, bool simpleGame = false)
@@ -54,10 +54,9 @@ namespace Loups_Garoups_de_Thiercelieux_console.Classes
                     continue;
                 }
             }
-            Console.WriteLine($"Your name is {allPlayers[0].name}.");
-            Wait();
+            Console.WriteLine($"Your name is {allPlayers[0].name}.\n");
             
-            for (int i = 0; i < nbPlayer; i++)  // AI players
+            for (int i = 0; i < nbPlayer - 1; i++)  // AI players
             {
                 allPlayers.Add(new Player(Enum.GetName(typeof(Name), i) , false));
             }
@@ -89,11 +88,16 @@ namespace Loups_Garoups_de_Thiercelieux_console.Classes
                 throw new Exception("Classic game not implemented yet !");
             }
 
+            foreach (Player player in allPlayers)
+            {
+                Console.WriteLine($"Player {player.name} is a {player.role}");
+            }
+
             // --- Start game ---
 
         }
 
-        private void Wait(int time = 1000)
+        private static void Wait(int time = 1000)
         {
             Thread.Sleep(time);
         }

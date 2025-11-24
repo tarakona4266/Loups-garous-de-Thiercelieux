@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Loups_Garoups_de_Thiercelieux_console.Enums
+namespace Loups_Garous_de_Thiercelieux_console.Enums
 {
     public enum Role
     {

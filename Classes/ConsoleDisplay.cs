@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Loups_Garoups_de_Thiercelieux_console.Classes
+namespace Loups_Garous_de_Thiercelieux_console.Classes
 {
     public static class ConsoleDisplay
     {
@@ -14,7 +14,6 @@ namespace Loups_Garoups_de_Thiercelieux_console.Classes
             Console.WriteLine(" | Loups-Garous de Thiercelieux |");
             Console.WriteLine(" +------------------------------+\n");
         }
-
         public static void ClearLine(int nbLines = 1)
         {
             int lineNb = Console.CursorTop;
