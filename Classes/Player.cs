@@ -1,6 +1,7 @@
 ﻿using Loups_Garous_de_Thiercelieux_console.Enums;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,18 +20,44 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             this.name = name;
         }
 
-        public int TownVote(List<Player> allPlayers)
+        public void PrintRole()
         {
-            int choice;
-            if (isHumain)
+            Console.Write(name + " is a ");
+            switch (role)
             {
-
+                case Role.Werewolf:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write(role);
+                    break;
+                case Role.Cupido:
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.Write(role);
+                    break;
+                case Role.FortuneTeller:
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write(role);
+                    break;
+                case Role.Hunter:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(role);
+                    break;
+                case Role.Witch:
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write(role);
+                    break;
+                case Role.LittleGirl:
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write(role);
+                    break;
+                case Role.Sheriff:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(role);
+                    break;
+                default: Console.Write(role);
+                    break;
             }
-            else
-            {
-                choice = GlobalRandom.GetRandom(allPlayers.Count);
-            }
-                return 0;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine();
         }
     }
 }

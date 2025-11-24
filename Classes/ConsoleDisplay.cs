@@ -10,9 +10,9 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
     {
         public static void MainTitle()
         {
-            Console.WriteLine(" +------------------------------+");
-            Console.WriteLine(" | Loups-Garous de Thiercelieux |");
-            Console.WriteLine(" +------------------------------+\n");
+            Console.WriteLine(" +----------------------------------+");
+            Console.WriteLine(" | The Werewolves of Millers Hollow |");
+            Console.WriteLine(" +----------------------------------+\n");
         }
         public static void ClearLine(int nbLines = 1)
         {

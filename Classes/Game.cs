@@ -88,10 +88,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 throw new Exception("Classic game not implemented yet !");
             }
 
-            foreach (Player player in allPlayers)
-            {
-                Console.WriteLine($"Player {player.name} is a {player.role}");
-            }
+            foreach (Player player in allPlayers) { player.PrintRole(); }   // for debug
 
             // --- Start game ---
 

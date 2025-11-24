@@ -15,12 +15,12 @@ namespace Loups_Garous_de_Thiercelieux_console
             Console.ReadLine();
             ConsoleDisplay.ClearLine(2);
 
-            // --- Game parameters ---
+            // --- Game setup ---
             Console.WriteLine("Choose player number (8 to 13) :");
             while (true)
             {
                 string? answer = Console.ReadLine();
-                if (int.TryParse(answer, out int nb)) 
+                if (int.TryParse(answer, out int nb))
                 {
                     if (nb > 7 && nb < 14)
                     {
