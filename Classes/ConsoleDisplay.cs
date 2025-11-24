@@ -15,5 +15,22 @@ namespace Loups_Garoups_de_Thiercelieux_console.Classes
             Console.WriteLine(" +------------------------------+\n");
         }
 
+        public static void ClearLine(int nbLines = 1)
+        {
+            int lineNb = Console.CursorTop;
+            if (lineNb >= nbLines)
+            {
+                lineNb -= nbLines;
+            }
+            Console.SetCursorPosition(0, lineNb);
+            for (int i = 0; i <= nbLines; i++)
+            {
+                Console.Write(new string(' ', Console.BufferWidth));
+                Console.SetCursorPosition(0, lineNb + i);
+            }
+            Console.SetCursorPosition(0, lineNb);
+
+        }
+
     }
 }

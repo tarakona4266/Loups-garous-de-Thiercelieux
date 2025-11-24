@@ -43,16 +43,20 @@ namespace Loups_Garoups_de_Thiercelieux_console.Classes
                 string? answer = Console.ReadLine();
                 if (answer != null && Regex.IsMatch(answer, pattern, RegexOptions.CultureInvariant))
                 {
+                    ConsoleDisplay.ClearLine(2);
+                    allPlayers.Add(new Player(answer, true));
                     valid = true;
                 }
                 else
                 {
+                    ConsoleDisplay.ClearLine(2);
                     Console.WriteLine("Invalid input : please enter 3 to 12 alphanumerical characters.");
                     continue;
                 }
             }
+            Console.WriteLine($"Your name is {allPlayers[0].name}.");
+            Wait();
             
-
             for (int i = 0; i < nbPlayer; i++)  // AI players
             {
                 allPlayers.Add(new Player(Enum.GetName(typeof(Name), i) , false));
@@ -62,13 +66,13 @@ namespace Loups_Garoups_de_Thiercelieux_console.Classes
             if (simpleGame)
             {
                 List<int> availableRoles = [];
-                int nbWerewolf = (int)Math.Round(nbPlayer * 0.2f);
+                int nbWerewolf = (int)Math.Round(allPlayers.Count * 0.2f);
                 for (int i = 0; i < nbWerewolf; i++)
                 {
                     availableRoles.Add(1);  // werewolves
                 }
                 availableRoles.Add(2);      // Fortune teller
-                int nbOrdinaryTownFolks = nbPlayer - nbWerewolf - 1;
+                int nbOrdinaryTownFolks = allPlayers.Count - nbWerewolf - 1;
                 for (int i = 0; i < nbOrdinaryTownFolks; i++)
                 {
                     availableRoles.Add(0);  // ordinary townfolks
@@ -87,6 +91,11 @@ namespace Loups_Garoups_de_Thiercelieux_console.Classes
 
             // --- Start game ---
 
+        }
+
+        private void Wait(int time = 1000)
+        {
+            Thread.Sleep(time);
         }
     }
 }
