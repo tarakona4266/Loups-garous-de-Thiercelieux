@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -36,14 +37,19 @@ namespace Loups_Garoups_de_Thiercelieux_console.Classes
             // --- Players creation ---
             bool valid = false;
             Console.WriteLine("What is your name ?");
-            var answer = Console.ReadLine();
+            string pattern = @"(\w){3,12}";
             while (!valid)
             {
-                if ()
+                string? answer = Console.ReadLine();
+                if (answer != null && Regex.IsMatch(answer, pattern, RegexOptions.CultureInvariant))
                 {
-                    
+                    valid = true;
                 }
-                else {
+                else
+                {
+                    Console.WriteLine("Invalid input : please enter 3 to 12 alphanumerical characters.");
+                    continue;
+                }
             }
             
 
