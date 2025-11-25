@@ -93,7 +93,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             // TEST
             foreach (Player player in allPlayers) { player.PrintRole(); }
             Console.WriteLine();
-            foreach (Player player in allPlayers) { player.Vote(allPlayers); }
+            ConsoleDisplay.PrintPlayers(allPlayers);
         }
 
         private static void Wait(int time = 1000)

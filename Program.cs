@@ -10,6 +10,7 @@ namespace Loups_Garous_de_Thiercelieux_console
             int nbPlayer;
             bool simpleGame;
 
+            Console.SetBufferSize(1920, 1080);
             ConsoleDisplay.MainTitle();
             Console.WriteLine("Press [ENTER] to start.");
             Console.ReadLine();

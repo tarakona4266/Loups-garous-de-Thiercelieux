@@ -19,6 +19,6 @@ namespace Loups_Garous_de_Thiercelieux_console.Enums
         Sidonie,
         Philomène,
         Léonard,
-        LeTeuffeurDu93, // parce que pourquoi pas :)
+        Michel
     }
 }
