@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -15,17 +16,6 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
         private bool simpleGame;
         private List<Player> allPlayers = [];
 
-        // special players
-        private List<Player> werewolves = [];
-        private Player Thief;
-        private Player Cupido;
-        private Player FortuneTeller;
-        private Player Witch;
-        private Player LittleGirl;
-        private Player Hunter;
-        private Player Sheriff;
-
-
         public Game(int nbPlayer, bool simpleGame = false)
         {
             this.nbPlayer = nbPlayer;
@@ -34,6 +24,8 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
 
         public void Run()
         {
+            #region SETUP
+
             // --- Players creation ---
             bool valid = false;
             Console.WriteLine("What is your name ?");
@@ -87,34 +79,82 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             {
                 throw new Exception("Classic game not implemented yet !");
             }
-            // get special players
-            foreach (Player player in allPlayers)
-            {
-                if (player.role == Role.Werewolf)
-                {
-                    werewolves.Add(player);
-                }
-                if (player.role == Role.FortuneTeller)
-                {
-                    FortuneTeller = player;
-                }
-            }
+
+            #endregion
 
             // --- Game start ---
 
             Console.Write("You are a ");
             allPlayers[0].PrintRole();
             Console.WriteLine(" !\n");
-            Wait(2000);
-            ConsoleDisplay.Narrrate("The night is aproaching. Everyone goes to sleep.\n");
-            Wait(2000);
-            Wait(2000);
+
+            ConsoleDisplay.Narrrate("The night is approaching. Everyone goes to sleep.\n");
             ConsoleDisplay.Narrrate("The werewolves are awakening.");
-            Wait(3000);
+
+            // fortune teller
+            if (allPlayers[0].role == Role.FortuneTeller)
+            {
+                ConsoleDisplay.PrintPlayers(allPlayers);
+                Console.WriteLine("Choose someone's card to see :");
+            }
+            Player? fortuneTeller = GetSpecialPlayer(Role.FortuneTeller);
+            if (fortuneTeller != null)
+            {
+                var result = fortuneTeller.SeeCard(allPlayers);
+                Player target = allPlayers[result.index];
+                if (fortuneTeller.isHumain)
+                {
+                    Console.Write("\n This person is a ");
+                    target.PrintRole();
+                    Console.WriteLine();
+                }
+            }
+
+            // werewolves vote
+            ConsoleDisplay.Narrrate("The werewolves are awakening.");
+
+            List<Player> werewolves = GetWerewolves();
+            List<int> townfolks = GetTownfolksIndex();
+
 
         }
 
-        private static void Wait(int time = 1000)   // meant to be replaced with something more elegant
+
+        private Player? GetSpecialPlayer(Role role)
+        {
+            Player targetPlayer = null;
+            foreach (Player player in allPlayers)
+            {
+                if (player.role == role)
+                {
+                    targetPlayer = player;
+                }
+            }
+            return targetPlayer;
+        }
+        private List<Player> GetWerewolves()
+        {
+            List<Player> werewolves = [];
+            foreach (Player player in allPlayers)
+            {
+                if (player.role == Role.Werewolf) { werewolves.Add(player); }
+            }
+            return werewolves;
+        }
+
+        private List<int> GetTownfolksIndex()
+        {
+            List<int> townfolks = [];
+            int i = 0;
+            foreach (Player player in allPlayers)
+            {
+                if (player.role != Role.Werewolf) { townfolks.Add(i); }
+                i++;
+            }
+            return townfolks;
+        }
+
+        private void Wait(int time = 1000)   // meant to be replaced with something more elegant
         {
             Thread.Sleep(time);
         }
