@@ -99,7 +99,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             Console.WriteLine(" !\n");
             Wait(1000);
 
-            // add Console.Clear here
+            ConsoleDisplay.Next();
 
             ConsoleDisplay.Narrrate("The night is approaching. Everyone goes to sleep.\n");
 
@@ -108,7 +108,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             ConsoleDisplay.Narrrate("The Fortune Teller awakes.\n");
             InvokeFortuneTeller();
             ConsoleDisplay.Narrrate("The Fortune Teller goes back to sleep.\n");
-
+            ConsoleDisplay.Next();
 
                 // werewolves vote
             ConsoleDisplay.Narrrate("The werewolves are awakening.\n");
@@ -124,11 +124,13 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             {
                 werewolf.Vote(allPlayers);
             }
+            Console.WriteLine();
 
             ConsoleDisplay.Narrrate("The werewolves go back to sleep.\n");
+            ConsoleDisplay.Next();
 
 
-                // town vote
+            // town vote
             ConsoleDisplay.Narrrate("The sun rises. The town wakes up.\n");
 
             ConsoleDisplay.PrintPlayers(allPlayers);

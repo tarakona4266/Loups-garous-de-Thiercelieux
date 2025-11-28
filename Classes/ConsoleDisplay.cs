@@ -12,9 +12,21 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
     {
         public static void MainTitle()
         {
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine(" +----------------------------------+");
-            Console.WriteLine(" | The Werewolves of Millers Hollow |");
+            Console.Write(" | ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("The ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("Werewolves");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" of ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("Millers Hollow");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write(" |\n");
             Console.WriteLine(" +----------------------------------+\n");
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         public static void ClearLine(int nbLines = 1)
@@ -48,8 +60,11 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 else { Console.ForegroundColor = ConsoleColor.Gray; }
 
                 if (player.indexInPlayerList < 10) { Console.Write(" "); } // for alignment
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.Write($" [{player.indexInPlayerList}] ");
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.Write($"- {player.name}");
+
                 if (!player.isAlive || debug || player.isDiscovered)
                 {
                     Console.Write(" : ");
@@ -67,6 +82,18 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(text);
             Thread.Sleep(1000); // ugly but will do the job for now
+        }
+
+        public static void Next()
+        {
+            Console.Write("Press ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("[ENTER]");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" to continue.");
+            Console.ReadLine();
+            Console.Clear();
+            MainTitle();
         }
     }
 }

@@ -14,9 +14,7 @@ namespace Loups_Garous_de_Thiercelieux_console
 
             Console.ForegroundColor = ConsoleColor.White;
             ConsoleDisplay.MainTitle();
-            Console.WriteLine("Press [ENTER] to start.");
-            Console.ReadLine();
-            ConsoleDisplay.ClearLine(2);
+            ConsoleDisplay.Next();
 
             // --- Game setup ---
             Console.WriteLine($"Choose player number (8 to {maxPlayerNb}) :");
