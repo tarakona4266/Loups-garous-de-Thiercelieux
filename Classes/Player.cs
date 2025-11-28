@@ -141,7 +141,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 }
             }
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine($"The {role} {name} has voted for {players[choice].role} {players[choice].name} by voting {choice}.");
+            Console.WriteLine($"[DEBUG] The {role} {name} has voted for {players[choice].role} {players[choice].name} by voting {choice}.");
             Console.ForegroundColor = ConsoleColor.White;
             return choice;
         }
@@ -194,15 +194,20 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                     {
                         if (choice >= 0 && choice < players.Count)
                         {
-                            if (choice != indexInPlayerList)
+                            if (choice == indexInPlayerList)
                             {
                                 ConsoleDisplay.ClearLine(2);
-                                break;
+                                Console.WriteLine("Invalid input : you cannot choose yourself");
+                            }
+                            else if (players[choice].isDiscovered)
+                            {
+                                ConsoleDisplay.ClearLine(2);
+                                Console.WriteLine("Invalid input : you have already chosen this person");
                             }
                             else
                             {
                                 ConsoleDisplay.ClearLine(2);
-                                Console.WriteLine("Invalid input : you cannot choose yourself");
+                                break;
                             }
                         }
                         else
@@ -224,13 +229,13 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 do
                 {
                     choice = GlobalRandom.GetRandom(players.Count);
-                } while (choice == indexInPlayerList || !players[choice].isAlive);
+                } while (choice == indexInPlayerList || !players[choice].isAlive || players[choice].isDiscovered);
                 if (players[choice].role == Role.Werewolf)
                 {
                     preferedChoice = choice;
                 }
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine($"The {role} {name} as discovered that {players[choice].name} is a {players[choice].role}.\n");
+                Console.WriteLine($"[DEBUG] The {role} {name} as discovered that {players[choice].name} is a {players[choice].role}.\n");
                 Console.ForegroundColor = ConsoleColor.White;
                 return (false, choice);
             }
