@@ -102,9 +102,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                         Console.WriteLine("Invalid input : pLease enter a number");
                     }
                 }
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine($"[DEBUG] You have voted for {players[choice].role} {players[choice].name} by voting {choice}.");
-                Console.ForegroundColor = ConsoleColor.White;
+                ConsoleDisplay.DebugPrint($"You have voted for {players[choice].role} {players[choice].name} by voting {choice}.");
                 return choice;
             }
             else // AI random vote
@@ -142,9 +140,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                     } while (players[choice].role == Role.Werewolf || !players[choice].isAlive);
                 }
             }
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine($"[DEBUG] The {role} {name} has voted for {players[choice].role} {players[choice].name} by voting {choice}.");
-            Console.ForegroundColor = ConsoleColor.White;
+            ConsoleDisplay.DebugPrint($"The {role} {name} has voted for {players[choice].role} {players[choice].name} by voting {choice}.");
             return choice;
         }
 
@@ -158,10 +154,15 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                     string? answer = Console.ReadLine();
                     if (int.TryParse(answer, out choice))
                     {
-                        if (playersIndex.Contains(choice))
+                        if (playersIndex.Contains(choice) && choice != indexInPlayerList)
                         {
                             ConsoleDisplay.ClearLine(2);
                             break;
+                        }
+                        else if (choice == indexInPlayerList)
+                        {
+                            ConsoleDisplay.ClearLine(2);
+                            Console.WriteLine($"Invalid input : you cannot vote for yourself");
                         }
                         else
                         {
@@ -192,12 +193,13 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 }
                 else
                 {
-                    choice = playersIndex[GlobalRandom.GetRandom(playersIndex.Count)];
+                    do
+                    {
+                        choice = playersIndex[GlobalRandom.GetRandom(playersIndex.Count)];
+                    } while (choice == indexInPlayerList);
                 }
             }
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine($"[DEBUG] The {role} {name} has voted {choice}");
-            Console.ForegroundColor = ConsoleColor.White;
+            ConsoleDisplay.DebugPrint($"The {role} {name} has voted {choice}");
             return choice;
         }
 
@@ -253,16 +255,14 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 if (players[choice].role == Role.Werewolf)
                 {
                     preferedChoice = choice;
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine($"[DEBUG] Prefered choice has been updated to {preferedChoice}.");
-                    Console.ForegroundColor = ConsoleColor.White;
+                    ConsoleDisplay.DebugPrint($"Prefered choice has been updated to {preferedChoice}.");
                 }
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine($"[DEBUG] The {role} {name} as discovered that {players[choice].name} is a {players[choice].role}.\n");
-                Console.ForegroundColor = ConsoleColor.White;
+
+                ConsoleDisplay.DebugPrint($"The {role} {name} as discovered that {players[choice].name} is a {players[choice].role}.\n");
 
                 return (false, choice);
             }
         }
+
     }
 }

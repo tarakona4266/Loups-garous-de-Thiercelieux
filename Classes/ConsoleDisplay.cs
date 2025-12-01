@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Loups_Garoups_de_Thiercelieux_console.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -11,6 +12,8 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
 {
     public static class ConsoleDisplay // this class exist so it will be easier to switch to a graphical interface later
     {
+        public static bool printDebug = false;
+
         public static void MainTitle()
         {
             Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -121,8 +124,31 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             }
         }
 
+        public static void DebugPrint(string text, bool prefix = false)
+        {
+            if (printDebug)
+            {
+                if (!prefix)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"[DEBUG] {text}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                {
+                    Console.WriteLine();
+                }
+            }
+        }
+
+        public static void PrintVotes(List<VoteData> voteList)
+        {
+
+        }
+
         public static void Next()
         {
+            Thread.Sleep(1000);
             Console.Write("Press ");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("[ENTER]");
@@ -131,6 +157,14 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             Console.ReadLine();
             Console.Clear();
             MainTitle();
+        }
+
+        public static void PrintSeparation()
+        {
+            Console.ForegroundColor= ConsoleColor.DarkGray;
+            ClearLine();
+            Console.WriteLine(" --- Next vote ---");
+            Console.ForegroundColor= ConsoleColor.White;
         }
     }
 }
