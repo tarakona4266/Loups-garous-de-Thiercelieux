@@ -186,7 +186,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             return choice;
         }
 
-        public (bool displayResult, int index) SeeCard(List<Player> players)
+        public (bool displayResult, int index) SeeCard(List<Player> players, List<int> alreadyDiscovered)
         {
             int choice;
             if (isHumain)
@@ -233,13 +233,15 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 do
                 {
                     choice = GlobalRandom.GetRandom(players.Count);
-                } while (choice == indexInPlayerList || !players[choice].isAlive || players[choice].isDiscovered);
+                } while (choice == indexInPlayerList || !players[choice].isAlive || alreadyDiscovered.Contains(choice));
 
                 if (players[choice].role == Role.Werewolf)
                 {
                     preferedChoice = choice;
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"[DEBUG] prefered choice updated");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
-
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine($"[DEBUG] The {role} {name} as discovered that {players[choice].name} is a {players[choice].role}.\n");
                 Console.ForegroundColor = ConsoleColor.White;

@@ -3,6 +3,7 @@ using Loups_Garous_de_Thiercelieux_console.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,10 +15,11 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
     public class Game
     {
         private int nbPlayer;
+        private int nbWerewolves;
         private bool simpleGame;
         private bool endGame = false;
         private List<Player> allPlayers = [];
-        private int nbWerewolves;
+        private List<int> discoveredByFT = [];
 
         public Game(int nbPlayer, bool simpleGame = false)
         {
@@ -94,7 +96,6 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
 
             #endregion
 
-            #region GAME LOOP
 
             // --- Game start ---
 
@@ -114,14 +115,31 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
 
                 ConsoleDisplay.Narrrate("The night is approaching. Everyone goes to sleep.\n");
 
-                // --- fortune teller ---
-                if (fortuneTeller.isAlive)
+                #region FORTUNE_TELLER
+
+                bool canInvokeFT = false;
+                foreach (Player player in allPlayers)
+                {
+                    if (player.role != Role.FortuneTeller)
+                    {
+                        if (player.isAlive && !discoveredByFT.Contains(player.indexInPlayerList))
+                        {
+                            canInvokeFT = true;
+                        }
+                    }
+                }
+
+                if (fortuneTeller.isAlive && canInvokeFT)
                 {
                     ConsoleDisplay.Narrrate("The Fortune Teller awakes.\n");
                     InvokeFortuneTeller(fortuneTeller);
                     ConsoleDisplay.Narrrate("The Fortune Teller goes back to sleep.\n");
                     ConsoleDisplay.Next();
                 }
+
+                #endregion
+
+                #region WEREWOLVES_VOTE
 
                 // --- werewolves vote ---
 
@@ -168,7 +186,9 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 ConsoleDisplay.Narrrate("The werewolves go back to sleep.\n");
                 ConsoleDisplay.Next();
 
+                #endregion
 
+                #region TOWN_VOTE
                 // --- town vote ---
 
                 CheckForEndGame();
@@ -200,8 +220,12 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
 
                 CheckForEndGame();
                 ConsoleDisplay.Next();
+
+                #endregion
+
+
             }
-            #endregion
+
 
             #region ENDGAME
 
@@ -268,8 +292,10 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                     Console.WriteLine("Choose someone's card to see :");
                 }
 
-                var result = fortuneTeller.SeeCard(allPlayers);
+                var result = fortuneTeller.SeeCard(allPlayers, discoveredByFT);
                 Player target = allPlayers[result.index];
+                discoveredByFT.Add(result.index);
+
                 if (fortuneTeller.isHumain)
                 {
                     Console.Write("This person is a ");
