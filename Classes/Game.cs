@@ -166,7 +166,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 }
                 else
                 {
-                    ConsoleDisplay.Narrrate("Wolf howls echo through the night.");
+                    ConsoleDisplay.Narrrate("Wolf howls echo through the night.\n");
                     ConsoleDisplay.Narrrate("You struggle to sleep while they are debating about their next victim.");
                     ConsoleDisplay.DebugPrint("", true);
                 }
@@ -178,7 +178,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                         votes.Add(werewolf.Vote(allPlayers));
                     }
                 }
-                Console.WriteLine();
+                Console.WriteLine(); //?
 
                 voteResults = GetWeightedVotes(votes, allPlayers);
                 victimIndex = GetVictimFromVotes(voteResults);
@@ -187,10 +187,11 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 {
                     if (allPlayers[0].role == Role.Werewolf && allPlayers[0].isAlive)
                     {
+                        ConsoleDisplay.PrintSeparation();
                         ConsoleDisplay.PrintPlayers(allPlayers, votes);
                         Console.WriteLine("The werewolves couldn't agree. Choose again among those savorous victims :");
                     }
-
+                    
                     votes.Clear();
                     votes = NewVote(voteResults, werewolves);
                     ConsoleDisplay.DebugPrint("", true);
@@ -203,7 +204,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 {
                     ConsoleDisplay.Narrrate($"The werewolves have chosen to devour {allPlayers[victimIndex].name}\n");
                 }
-                ConsoleDisplay.Narrrate("The werewolves' hunger is satisfied for this night.\n");
+                ConsoleDisplay.Narrrate("Someone screams. The werewolves' hunger is satisfied for this night.\n");
 
                 endGameResult = CheckForEndGame();
                 if (endGameResult.aliveWerewolves == 1 && endGameResult.aliveTownfolks == 1) { endGame = true; }
@@ -238,15 +239,16 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 {
                     if (allPlayers[0].isAlive)
                     {
+                        ConsoleDisplay.PrintSeparation();
                         ConsoleDisplay.PrintPlayers(allPlayers, votes);
                         Console.WriteLine("The villagers couldn't agree. Choose again among the suspects :");
                     }
                     votes.Clear();
                     votes = NewVote(voteResults, allPlayers);
-                    Console.WriteLine();
                     voteResults = GetWeightedVotes(votes, allPlayers);
                     victimIndex = GetVictimFromVotes(voteResults);
                 }
+                Console.WriteLine();
                 allPlayers[victimIndex].isAlive = false;
                 ConsoleDisplay.Narrrate($"The assembly has spoken : the scapegoat is {allPlayers[victimIndex].name}.");
                 ConsoleDisplay.Narrrate($"This person was a ", false);
@@ -271,7 +273,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 {
                     Console.WriteLine("Congratulation !\n");
                     Console.WriteLine("The werewolves have slayed all the villagers.\n");
-                    Console.ForegroundColor= ConsoleColor.Blue;
+                    Console.ForegroundColor= ConsoleColor.Cyan;
                     Console.WriteLine("Your team won !");
                     Console.ForegroundColor= ConsoleColor.White;
                 }
@@ -298,7 +300,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 {
                     Console.WriteLine("Congratulation !\n");
                     Console.WriteLine("The villagers have slayed all the werewolves. Millers Hollow is saved.\n");
-                    Console.ForegroundColor= ConsoleColor.Blue;
+                    Console.ForegroundColor= ConsoleColor.Cyan;
                     Console.WriteLine("Your team won !");
                     Console.ForegroundColor= ConsoleColor.White;
                 }
@@ -309,7 +311,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 {
                     Console.WriteLine("Congratulation !\n");
                     Console.WriteLine("With only a villager left, your kind has seized control of Millers Hollow.\n");
-                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.WriteLine("Your team won !");
                     Console.ForegroundColor = ConsoleColor.White;
                 }

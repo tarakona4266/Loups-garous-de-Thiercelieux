@@ -141,14 +141,25 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             }
         }
 
-        public static void PrintVotes(List<VoteData> voteList)
+        public static void PrintVotes(List<VoteData> voteList, List<Player> allPlayers)
         {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("\n ----- ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Result");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine(" -----\n");
+            Console.ForegroundColor = ConsoleColor.White;
 
+            foreach (VoteData vote in voteList)
+            {
+                Console.WriteLine("test");
+            }
         }
 
         public static void Next()
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(750);
             Console.Write("Press ");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("[ENTER]");
@@ -161,9 +172,13 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
 
         public static void PrintSeparation()
         {
-            Console.ForegroundColor= ConsoleColor.DarkGray;
             ClearLine();
-            Console.WriteLine(" --- Next vote ---");
+            Console.ForegroundColor= ConsoleColor.Blue;
+            Console.Write("\n ----- ");
+            Console.ForegroundColor= ConsoleColor.White;
+            Console.Write("Next vote");
+            Console.ForegroundColor= ConsoleColor.Blue;
+            Console.WriteLine(" -----\n");
             Console.ForegroundColor= ConsoleColor.White;
         }
     }

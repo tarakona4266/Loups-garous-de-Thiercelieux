@@ -76,7 +76,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                             }
                             else
                             {
-                                ConsoleDisplay.ClearLine(2);
+                                ConsoleDisplay.ClearLine(3);
                                 break;
                             }
                         }
@@ -156,7 +156,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                     {
                         if (playersIndex.Contains(choice) && choice != indexInPlayerList)
                         {
-                            ConsoleDisplay.ClearLine(2);
+                            ConsoleDisplay.ClearLine(3);
                             break;
                         }
                         else if (choice == indexInPlayerList)
