@@ -143,23 +143,24 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
 
         public static void PrintVotes(List<VoteData> voteList, List<Player> allPlayers)
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("\n ----- ");
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("Result");
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(" -----\n");
             Console.ForegroundColor = ConsoleColor.White;
 
             foreach (VoteData vote in voteList)
             {
-                Console.WriteLine("test");
+                Console.WriteLine($"Votes for {allPlayers[vote.vote].name} : {vote.weight}");
             }
+            Console.WriteLine();
         }
 
         public static void Next()
         {
-            Thread.Sleep(750);
+            Thread.Sleep(900);
             Console.Write("Press ");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("[ENTER]");

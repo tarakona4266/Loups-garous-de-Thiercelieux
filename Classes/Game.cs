@@ -21,6 +21,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
         private List<Player> allPlayers = [];
         private List<int> discoveredByFT = [];
         private (int aliveWerewolves, int aliveTownfolks) endGameResult;
+        bool humanIsWerewolf = false;
 
         public Game(int nbPlayer, bool simpleGame = false)
         {
@@ -85,6 +86,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             }
             if (allPlayers[0].role == Role.Werewolf)
             {
+                humanIsWerewolf = true;
                 foreach (Player player in allPlayers)
                 {
                     if (player.role == Role.Werewolf)
@@ -178,25 +180,26 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                         votes.Add(werewolf.Vote(allPlayers));
                     }
                 }
-                Console.WriteLine(); //?
+                Console.WriteLine();
 
                 voteResults = GetWeightedVotes(votes, allPlayers);
                 victimIndex = GetVictimFromVotes(voteResults);
+                if (humanIsWerewolf) { ConsoleDisplay.PrintVotes(voteResults, allPlayers); }
 
                 while (victimIndex == -1) // if voters don't agree
                 {
-                    if (allPlayers[0].role == Role.Werewolf && allPlayers[0].isAlive)
+                    if (humanIsWerewolf && allPlayers[0].isAlive)
                     {
                         ConsoleDisplay.PrintSeparation();
                         ConsoleDisplay.PrintPlayers(allPlayers, votes);
                         Console.WriteLine("The werewolves couldn't agree. Choose again among those savorous victims :");
                     }
-                    
                     votes.Clear();
                     votes = NewVote(voteResults, werewolves);
                     ConsoleDisplay.DebugPrint("", true);
                     voteResults = GetWeightedVotes(votes, allPlayers);
                     victimIndex = GetVictimFromVotes(voteResults);
+                    if (humanIsWerewolf) { ConsoleDisplay.PrintVotes(voteResults, allPlayers); }
                 }
                 allPlayers[victimIndex].isAlive = false; // kill the chosen victim
 
@@ -234,6 +237,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 Console.WriteLine();
                 voteResults = GetWeightedVotes(votes, allPlayers);
                 victimIndex = GetVictimFromVotes(voteResults);
+                ConsoleDisplay.PrintVotes(voteResults, allPlayers);
 
                 while (victimIndex == -1) // if voters don't agree
                 {
@@ -247,6 +251,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                     votes = NewVote(voteResults, allPlayers);
                     voteResults = GetWeightedVotes(votes, allPlayers);
                     victimIndex = GetVictimFromVotes(voteResults);
+                    ConsoleDisplay.PrintVotes(voteResults, allPlayers);
                 }
                 Console.WriteLine();
                 allPlayers[victimIndex].isAlive = false;
@@ -410,24 +415,24 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 }
                 else { weightedVotes.Add(new VoteData(vote, 1)); }
             }
+            var sortedVotes = weightedVotes.OrderByDescending(item => item.weight); // sort here for printing votes in weight order
+            weightedVotes = sortedVotes.ToList();
             return weightedVotes;
         }
 
         private int GetVictimFromVotes(List<VoteData> votes)
         {
             int victimIndex;
-            var sort = votes.OrderByDescending(item => item.weight); // sort by weight
-            VoteData[] sortedVotes = sort.ToArray();
 
-            foreach (VoteData vote in sortedVotes)
+            foreach (VoteData vote in votes)
             {
                 ConsoleDisplay.DebugPrint($"{vote}");
             }
             ConsoleDisplay.DebugPrint("", true);
 
-            if (sortedVotes.Length == 1 || sortedVotes[0].weight != sortedVotes[1].weight)
+            if (votes.Count == 1 || votes[0].weight != votes[1].weight)
             {
-                victimIndex = sortedVotes[0].vote;
+                victimIndex = votes[0].vote;
                 ConsoleDisplay.DebugPrint($"the victim will be {allPlayers[victimIndex].name}\n");
             }
             else // need another vote
