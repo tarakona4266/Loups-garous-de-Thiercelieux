@@ -29,6 +29,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
         Player? thief;
         Player? witch;
         Player? littleGirl;
+        Player? hunter;
 
         public Game(int nbPlayer, bool simpleGame = false)
         {
@@ -170,6 +171,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             {
                 littleGirl = GetSpecialPlayer(Role.LittleGirl);
                 witch = GetSpecialPlayer(Role.Witch);
+                hunter = GetSpecialPlayer(Role.Hunter);
             }
 
             // --- game loop ---
@@ -180,7 +182,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 List<VoteData> voteResults;
                 int victimIndex;
 
-                ConsoleDisplay.Narrrate("The night is approaching. Everyone goes to sleep.\n");
+                ConsoleDisplay.Narrate("The night is approaching. Everyone goes to sleep.\n");
 
                 #region FORTUNE_TELLER
 
@@ -199,9 +201,9 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                     }
                     if (canInvokeFT)
                     {
-                        ConsoleDisplay.Narrrate("The Fortune Teller awakes.\n");
+                        ConsoleDisplay.Narrate("The Fortune Teller awakes.\n");
                         InvokeFortuneTeller(fortuneTeller);
-                        ConsoleDisplay.Narrrate("The Fortune Teller goes back to sleep.\n");
+                        ConsoleDisplay.Narrate("The Fortune Teller goes back to sleep.\n");
                         ConsoleDisplay.Next();
                     }
                 }
@@ -212,7 +214,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
 
                 CheckForEndGame();
 
-                ConsoleDisplay.Narrrate("The full moon is shining. The werewolves are awakening.\n");
+                ConsoleDisplay.Narrate("The full moon is shining. The werewolves are awakening.\n");
 
                 List<Player> werewolves = GetWerewolves();
 
@@ -223,8 +225,8 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                 }
                 else
                 {
-                    ConsoleDisplay.Narrrate("Wolf howls echo through the night.\n");
-                    ConsoleDisplay.Narrrate("You struggle to sleep while they are debating about their next victim.");
+                    ConsoleDisplay.Narrate("Wolf howls echo through the night.\n");
+                    ConsoleDisplay.Narrate("You struggle to sleep while they are debating about their next victim.");
                     ConsoleDisplay.DebugPrint("", true);
                 }
 
@@ -256,13 +258,13 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                     victimIndex = GetVictimFromVotes(voteResults);
                     if (humanIsWerewolf) { ConsoleDisplay.PrintVotes(voteResults, allPlayers); }
                 }
-                allPlayers[victimIndex].isAlive = false; // kill the chosen victim
+                Kill(allPlayers[victimIndex]);
 
                 if (allPlayers[0].role == Role.Werewolf)
                 {
-                    ConsoleDisplay.Narrrate($"The werewolves have chosen to devour {allPlayers[victimIndex].name}\n");
+                    ConsoleDisplay.Narrate($"The werewolves have chosen to devour {allPlayers[victimIndex].name}\n");
                 }
-                ConsoleDisplay.Narrrate("Someone screams. The werewolves' hunger is satisfied for this night.\n");
+                ConsoleDisplay.Narrate("Someone screams. The werewolves' hunger is satisfied for this night.\n");
 
                 endGameResult = CheckForEndGame();
                 if (endGameResult.aliveWerewolves == 1 && endGameResult.aliveTownfolks == 1) { endGame = true; }
@@ -273,10 +275,10 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
 
                 #region TOWN_VOTE
 
-                ConsoleDisplay.Narrrate("The sun rises. The town wakes up.\n");
-                ConsoleDisplay.Narrrate($"The werewolves have striked tonight. {allPlayers[victimIndex].name} has been eaten.\n");
-                ConsoleDisplay.Narrrate("The townfolks gather at the village square.\n");
-                ConsoleDisplay.Narrrate("In an attempt to get rid of the werewolves, everybody vote for a scapegoat to sacrifice.\n");
+                ConsoleDisplay.Narrate("The sun rises. The town wakes up.\n");
+                ConsoleDisplay.Narrate($"The werewolves have striked tonight. {allPlayers[victimIndex].name} has been eaten.\n");
+                ConsoleDisplay.Narrate("The townfolks gather at the village square.\n");
+                ConsoleDisplay.Narrate("In an attempt to get rid of the werewolves, everybody vote for a scapegoat to sacrifice.\n");
                 Wait();
                 ConsoleDisplay.PrintPlayers(allPlayers);
 
@@ -309,9 +311,9 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
                     ConsoleDisplay.PrintVotes(voteResults, allPlayers);
                 }
                 Console.WriteLine();
-                allPlayers[victimIndex].isAlive = false;
-                ConsoleDisplay.Narrrate($"The assembly has spoken : the scapegoat is {allPlayers[victimIndex].name}.");
-                ConsoleDisplay.Narrrate($"This person was a ", false);
+                Kill(allPlayers[victimIndex]);
+                ConsoleDisplay.Narrate($"The assembly has spoken : the scapegoat is {allPlayers[victimIndex].name}.");
+                ConsoleDisplay.Narrate($"This person was a ", false);
                 allPlayers[victimIndex].PrintRole();
                 Console.WriteLine("\n");
 
@@ -389,6 +391,8 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
         }
 
         #region METHODS
+
+        // --- get specific players ---
         private Player GetSpecialPlayer(Role role)
         {
             Player targetPlayer = null;
@@ -412,16 +416,8 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             return werewolves;
         }
 
-        private List<Player> GetTownfolks()
-        {
-            List<Player> folks = [];
-            foreach (Player player in allPlayers)
-            {
-                if (player.role != Role.Werewolf && player.isAlive) { folks.Add(player); }
-            }
-            return folks;
-        }
 
+        // --- special players actions ---
         private void InvokeFortuneTeller(Player fortuneTeller)
         {
             if (fortuneTeller.isHumain)
@@ -431,7 +427,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             }
             else
             {
-                ConsoleDisplay.Narrrate("No one knows what happens at the fortune teller's house during the night,\nbut everyone agrees that there are secrets that are better left unrevealed.\n");
+                ConsoleDisplay.Narrate("No one knows what happens at the fortune teller's house during the night,\nbut everyone agrees that there are secrets that are better left unrevealed.\n");
             }
 
             var result = fortuneTeller.SeeCard(allPlayers, discoveredByFT);
@@ -483,6 +479,45 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             }
         }
 
+        private void Kill(Player victim) // hunter action
+        {
+            if (hunter != null && victim.role == Role.Hunter)
+            {
+                ConsoleDisplay.Next();
+
+                int choice;
+                if (hunter.isHumain)
+                {
+                    ConsoleDisplay.Narrate("In a twist of fate, the hunter becomes the hunted.\nNo matter how resilient you are, you will not survive this time.\n");
+                    ConsoleDisplay.Narrate("In a last burst of vitality, you draw your rifle.\n");
+                    ConsoleDisplay.PrintPlayers(allPlayers);
+                    Console.WriteLine("Who will be the target of you vengeance ?");
+                    choice = hunter.Vote(allPlayers);
+                }
+                else
+                {
+                    ConsoleDisplay.Narrate("In a twist of fate, the hunter becomes the hunted.\n");
+                    ConsoleDisplay.DebugPrint("", true);
+                    choice = hunter.Vote(allPlayers);
+                    ConsoleDisplay.DebugPrint("", true);
+                    ConsoleDisplay.Narrate($"{hunter.name} avenged themselves by shooting {allPlayers[choice].name}.");
+                    Console.Write("This person was a ");
+                    allPlayers[choice].PrintRole();
+                }
+                allPlayers[choice].isAlive = false;
+                hunter.isAlive = false;
+
+                Console.WriteLine("\n");
+                ConsoleDisplay.Next();
+            }
+            else
+            {
+                victim.isAlive = false;
+            }
+        }
+
+
+        // --- vote related stuff ---
         private List<VoteData> GetWeightedVotes(List<int> votes, List<Player> targets)
         {
             votes.Sort();
@@ -548,6 +583,8 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             return votes;
         }
 
+
+        // --- other ---
         private (int aliveWerewolves, int aliveTownFolks) CheckForEndGame()
         {
             int aliveWerewolves = 0;

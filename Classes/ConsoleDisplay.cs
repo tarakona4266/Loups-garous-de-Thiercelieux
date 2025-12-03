@@ -108,7 +108,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Classes
             Console.WriteLine();
         }
 
-        public static void Narrrate(string text, bool newLine = true)
+        public static void Narrate(string text, bool newLine = true)
         {
             Thread.Sleep(1000); // ugly but will do the job for now
             Console.ForegroundColor = ConsoleColor.Green;
