@@ -12,7 +12,7 @@ namespace Loups_Garous_de_Thiercelieux_console.Enums
         Gertrude,
         Maximilien,
         Yvette,
-        Gaspard,
+        Foulques,
         Micheline,
         Cunégonde,
         Philibert,
